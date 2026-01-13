@@ -8,9 +8,10 @@ package-lock.json
 .env.production
 
 # Logs
-logs
+logs/
 *.log
 npm-debug.log*
+pm2-*.log
 
 # OS files
 .DS_Store
