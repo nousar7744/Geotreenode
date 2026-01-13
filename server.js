@@ -25,22 +25,23 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// ✅ HEALTH CHECK ENDPOINT (Available before DB connection)
+app.get('/health', (req, res) => {
+  res.json({
+    status: 'ok',
+    message: 'Server is running',
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    environment: process.env.NODE_ENV || 'development',
+    database: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
+  });
+});
+
 // ✅ START SERVER FUNCTION
 async function startServer() {
   try {
     // ✅ WAIT FOR DB
     await connectDB();
-
-    // ✅ HEALTH CHECK ENDPOINT
-    app.get('/health', (req, res) => {
-      res.json({
-        status: 'ok',
-        message: 'Server is running',
-        timestamp: new Date().toISOString(),
-        uptime: process.uptime(),
-        environment: process.env.NODE_ENV || 'development'
-      });
-    });
 
     // ✅ ROUTES AFTER DB
     app.use(Auth);
