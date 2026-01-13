@@ -1,0 +1,18 @@
+import mongoose from "mongoose";
+
+const connectDB = async () => {
+  try {
+    const conn = await mongoose.connect("mongodb+srv://rajatsonisoni77_db_user:xRDxzaIQzg1kpWcs@cluster0.rpxlyyl.mongodb.net/Cluster0", {
+      serverSelectionTimeoutMS: 10000,
+      dbName: "users",
+    });
+
+    console.log(`MongoDB connected ✅ : ${conn.connection.host}`);
+  } catch (error) {
+    console.error("MongoDB connection failed ❌");
+    console.error(error.message);
+    process.exit(1);
+  }
+};
+
+export default connectDB;
