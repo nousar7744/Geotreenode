@@ -31,6 +31,17 @@ async function startServer() {
     // ✅ WAIT FOR DB
     await connectDB();
 
+    // ✅ HEALTH CHECK ENDPOINT
+    app.get('/health', (req, res) => {
+      res.json({
+        status: 'ok',
+        message: 'Server is running',
+        timestamp: new Date().toISOString(),
+        uptime: process.uptime(),
+        environment: process.env.NODE_ENV || 'development'
+      });
+    });
+
     // ✅ ROUTES AFTER DB
     app.use(Auth);
 
